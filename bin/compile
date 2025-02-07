@@ -1,6 +1,18 @@
 #! /usr/bin/env bash
 
-echo $0
-echo $1
-echo $2
-echo $3
+BUILD_DIR=$1
+ENV_DIR=$3
+PROFILE_DIR=${BUILD_DIR}/.profile.d
+
+# Download Konvu Sensor 
+mkdir -p ${BUILD_DIR}/.konvu
+KONVU_TOKEN=$(cat ${ENV_DIR}/KONVU_TOKEN)
+echo "-----> Getting Koncu Sensor"
+curl -L -o ${BUILD_DIR}/.konvu/konvu-sensor.jar -u konvu:${KONVU_TOKEN}  https://download.konvu.com/binary/java/konvu-sensor.jar
+
+# Set profile start up script to initialize JDK_JAVA_OPTIONS
+mkdir -p ${PROFILE_DIR}
+echo "-----> Set up Konvu profile"
+cat <<EOF > ${PROFILE_DIR}/konvu.sh
+export JDK_JAVA_OPTIONS="\${JDK_JAVA_OPTIONS} -javaagent:.konvu/konvu-sensor.jar"
+EOF
