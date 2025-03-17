@@ -8,7 +8,7 @@ PROFILE_DIR=${BUILD_DIR}/.profile.d
 mkdir -p ${BUILD_DIR}/.konvu
 KONVU_TOKEN=$(cat ${ENV_DIR}/KONVU_TOKEN)
 echo "-----> Getting Koncu Sensor"
-curl -L -o ${BUILD_DIR}/.konvu/konvu-sensor.jar -u konvu:${KONVU_TOKEN}  https://download.konvu.com/binary/java/konvu-sensor.jar
+curl -f -L -o ${BUILD_DIR}/.konvu/konvu-sensor.jar -u konvu:${KONVU_TOKEN}  https://download.konvu.com/binary/java/konvu-sensor.jar || exit 1
 
 # Set profile start up script to initialize JDK_JAVA_OPTIONS
 mkdir -p ${PROFILE_DIR}
